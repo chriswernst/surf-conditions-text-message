@@ -6,7 +6,7 @@
 [image3]: ./images/tides.jpg
 [image4]: ./images/pizero.jpg
 
-##### Overview
+#### Overview
 *Python Surf Text* scrapes NOAA sites to retrieve tide and buoy (swell height) for the Santa Monica Bay in California (Buoy #46221).
 
 We will step through a brief overview, then go on to how to make this run remotely with the $10 Raspberry Pi Zero W.
@@ -18,11 +18,12 @@ We will step through a brief overview, then go on to how to make this run remote
 # 
 
 
-##### Versioning
-surfTextGenericPy2.py is for use with Python 2
-surfTextGenericPy3.py is for use with Python 3
+#### Versioning
+`surfTextGenericPy2.py` is for use with Python 2
 
-##### Dependencies
+`surfTextGenericPy3.py` is for use with Python 3
+
+#### Dependencies
 Both versions rely on the Python modules:
  - requests
  - beautifulSoup
@@ -32,7 +33,7 @@ Both versions rely on the Python modules:
 
 You must also have a Twilio account and active phone number set up. Learn more at https://www.twilio.com
 
-##### Altering Swell and Tidal Data
+#### Altering Swell and Tidal Data
 The two lines of code you need to alter to change the location are the URLs we're creating beautifulSoup objects from. One for the swell:
 `
 surf = requests.get('http://www.ndbc.noaa.gov/station_page.php?station=46221')
@@ -43,17 +44,22 @@ tides = requests.get('https://tidesandcurrents.noaa.gov/noaatidepredictions.html
 `
 As long as requests are made from those two sites' pages, the scraper should work correctly.
 
-For referenence, they are scraping the data from:
+For reference, they are scraping the data from:
 #
 ![][image2]
 #
 ![][image3]
 #
+#
+#
 
 ##### *So this is great and all, but how do we automate the code to run remotely, and periodically send me a report of what's going on in the ocean?*
+
 ###
+
 ###
-##### Automation
+
+#### Automation
 This can be done a variety of ways, but since I've been wanting to get more exposure to the Raspberry Pi, I decided to pick up the new Raspberry PI Zero W - which boasts WiFi, Bluetooth LE, and a 1 Ghz processor for $10! Check them out at: https://www.raspberrypi.org/products/raspberry-pi-zero-w/
 #
 ![][image4]
@@ -128,6 +134,9 @@ This sets the `surfJob.sh` script to run every 3 hours, at zero minutes.
 As an example, to make it run every 6 hours, at the 15th minute, change it to: 
 `15 */6 * * * /home/pi/surfJob.sh`
 ctrl-x will exit, make sure to save your changes, and press enter to finalize saving.
+
+#
+#
 
 ##### And that's it! Keep your Raspberry Pi Zero W plugged in and it should continuously send you text updates!
 
