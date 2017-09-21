@@ -6,13 +6,17 @@
 [image3]: ./images/tides.jpg
 [image4]: ./images/pizero.jpg
 
-
-![][image1]
-
 ##### Overview
 *Python Surf Text* scrapes NOAA sites to retrieve tide and buoy (swell height) for the Santa Monica Bay in California (Buoy #46221).
 
 We will step through a brief overview, then go on to how to make this run remotely with the $10 Raspberry Pi Zero W.
+
+# 
+
+![][image1]
+
+# 
+
 
 ##### Versioning
 surfTextGenericPy2.py is for use with Python 2
@@ -40,17 +44,20 @@ tides = requests.get('https://tidesandcurrents.noaa.gov/noaatidepredictions.html
 As long as requests are made from those two sites' pages, the scraper should work correctly.
 
 For referenence, they are scraping the data from:
+#
 ![][image2]
+#
 ![][image3]
+#
 
 ##### *So this is great and all, but how do we automate the code to run remotely, and periodically send me a report of what's going on in the ocean?*
 ###
 ###
 ##### Automation
 This can be done a variety of ways, but since I've been wanting to get more exposure to the Raspberry Pi, I decided to pick up the new Raspberry PI Zero W - which boasts WiFi, Bluetooth LE, and a 1 Ghz processor for $10! Check them out at: https://www.raspberrypi.org/products/raspberry-pi-zero-w/
-
-![][image1]
-
+#
+![][image4]
+# 
 **You'll also need to get:**
 - Power Supply (5V, >2A) Micro USB
 - 8GB or larger Micro SD
