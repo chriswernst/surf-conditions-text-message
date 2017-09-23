@@ -11,7 +11,7 @@
 
 We will step through a brief overview, then go on to how to make this run remotely with the $10 Raspberry Pi Zero W.
 
-# 
+### 
 
 ![][image1]
 
@@ -34,36 +34,44 @@ Both versions rely on the Python modules:
 You must also have a Twilio account and active phone number set up. Learn more at https://www.twilio.com
 
 #### Altering Swell and Tidal Data
-The two lines of code you need to alter to change the location are the URLs we're creating beautifulSoup objects from. One for the swell:
+The two lines of code you need to alter to change the location are the URLs we're creating beautifulSoup objects from. 
+### 
+One for the swell:
 `
 surf = requests.get('http://www.ndbc.noaa.gov/station_page.php?station=46221')
 `
+### 
 And one for the tide:
 `
 tides = requests.get('https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=9410840&legacy=1')
 `
+
 As long as requests are made from those two sites' pages, the scraper should work correctly.
 
 For reference, they are scraping the data from:
 #
 ![][image2]
-#
+### 
 ![][image3]
-#
-#
-#
+
+### 
+
+
+###  
 
 ##### *So this is great and all, but how do we automate the code to run remotely, and periodically send me a report of what's going on in the ocean?*
 
-###
+### 
 
-###
+### 
 
 #### Automation
 This can be done a variety of ways, but since I've been wanting to get more exposure to the Raspberry Pi, I decided to pick up the new Raspberry PI Zero W - which boasts WiFi, Bluetooth LE, and a 1 Ghz processor for $10! Check them out at: https://www.raspberrypi.org/products/raspberry-pi-zero-w/
-#
+
+### 
 ![][image4]
-# 
+###
+
 **You'll also need to get:**
 - Power Supply (5V, >2A) Micro USB
 - 8GB or larger Micro SD
@@ -119,6 +127,7 @@ cd
 python3 surfTextGenericPy3.py
 ```
 Save the file as `surfJob.sh` and put it in your home directory `/home/pi/`
+#
 ###### Cron
 #
 We're going to use Cron to automate the running of the shell script we just created above, that runs the python script.  Learn more about Cron here: https://en.wikipedia.org/wiki/Cron
@@ -135,10 +144,8 @@ As an example, to make it run every 6 hours, at the 15th minute, change it to:
 `15 */6 * * * /home/pi/surfJob.sh`
 ctrl-x will exit, make sure to save your changes, and press enter to finalize saving.
 
-#
-#
+### 
+### 
 
 ##### And that's it! Keep your Raspberry Pi Zero W plugged in and it should continuously send you text updates!
-
-
 

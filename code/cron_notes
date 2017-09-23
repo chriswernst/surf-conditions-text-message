@@ -1,0 +1,20 @@
+# The one that worked in crontab -e; sudo crontab -e didn't work:
+13 * * * * /home/pi/test.sh
+
+# Contents of test.sh:
+#!/bin/bash
+mkdir test123
+
+# Remember to chmod +x surfJob.sh
+
+# The Python one that worked:
+23 * * * * /home/pi/surfJob.sh
+
+# Contents of surfJob.sh:
+#!/bin/bash
+cd
+python3 SurfText2.py
+
+# First two lines of that python script:
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
