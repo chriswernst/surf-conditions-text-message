@@ -127,6 +127,12 @@ cd
 python3 surfTextGenericPy3.py
 ```
 Save the file as `surfJob.sh` and put it in your home directory `/home/pi/`
+
+Also, we need to make sure `surfJob.sh` is executable by typing into terminal:
+```
+chmod +x surfJob.h
+```
+
 #
 ###### Cron
 #
