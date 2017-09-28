@@ -6,14 +6,12 @@ Created on Tue Sep  5 07:19:39 2017
 @author: ChrisErnst
 github @chriswernst
 """
-
 # This version works with Python 2
 
-def main():
+def sendSurfText():
 	    
 	import requests, bs4, time, datetime
 	from twilio.rest import TwilioRestClient
-
 
 	accountSID = 'aaaaaaa111111111' # Your Twilio SID here
 	authToken = 'aaaaaaa111111111' # Your Twilio Token here
@@ -22,14 +20,12 @@ def main():
 
 	myTwilioNumber = '+13105555555' # Your assigned Twilio Number
 	# Required to send outgoing texts. If unused for 30 days, number will be lost
-
 	myCellPhone = '+13105555555' #The number you want to text here
 
-
-	surf = requests.get('http://www.ndbc.noaa.gov/station_page.php?station=46221')
-	tides = requests.get('https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=9410840&legacy=1')
-	# Completes the http request for wave and tidal conditions specific to Buoy 46221 in Santa Monica Bay        
-
+    surf = requests.get('http://www.ndbc.noaa.gov/station_page.php?station=46221')
+    tides = requests.get('http://tides.mobilegeographics.com/locations/5620.html')
+    # completes the http request        
+    
 	surf.raise_for_status()
 	tides.raise_for_status()
 	# No response is good news!
@@ -42,11 +38,15 @@ def main():
 	soupSurfPage = bs4.BeautifulSoup(surf.text, "lxml")
 	soupTidePage = bs4.BeautifulSoup(tides.text, "lxml")        
 	# Creates a couple beautiful soup object in lxml 
-	        
-	wave = soupSurfPage.select('td')
-	tidesTD = soupTidePage.select('td')
-	# Selects the CSS tags 'td' in the HTML code        
+	     
+    wave = soupSurfPage.select('td')
+    tidePre = soupTidePage.select('pre')
+    # Selects the CSS tags 'td' and 'pre' in the HTML code       
 
+     #then this parses off the rest
+    tideText = tidePre[0].getText()
+    selectTideText = (tideText[50:378]) 
+    
 	# Want to choose the CSS selectors the exact piece of the list of 'wave'
 	# e.g. wave[20-35] is roughly where is forecast is
 
@@ -59,47 +59,20 @@ def main():
 	meanWaveDirection = wave[29].getText()
 	# Extracts the 29th 'td' CSS tag which is the Wave Direction
 
-
-	# Tidal data extraction:
-	    
-	# First tide of the day:
-	tide1Time = tidesTD[0].getText()
-	tide1Type = tidesTD[1].getText()
-	tide1Height = tidesTD[2].getText()
-
-	# Second tide of the day:
-	tide2Time = tidesTD[3].getText()
-	tide2Type = tidesTD[4].getText()
-	tide2Height = tidesTD[5].getText()
-
-	# Third tide of the day:
-	tide3Time = tidesTD[6].getText()
-	tide3Type = tidesTD[7].getText()
-	tide3Height = tidesTD[8].getText()
-
-	# Fourth tide of the day:
-	tide4Time = tidesTD[9].getText()
-	tide4Type = tidesTD[10].getText()
-	tide4Height = tidesTD[11].getText()
-
-
 	wave = soupSurfPage.select('[class=titleDataHeader]')
 	# This selects the relevant class where the header data is located
 
 	update = wave[0].getText()
 	# Parses the header
 	 
-	message = twilioCli.messages.create(body=
-	                    ('\n\n\n' + 'Surf Report:' + '\n\n' + waveHeight + ', Water Temp:' + waterTemp + 
-	                     ', Wave Direction: '+ meanWaveDirection
-	                     + '\n\n' + tide1Time + ' ' + tide1Type + tide1Height
-	                     + '\n' + tide2Time + ' ' + tide2Type + tide2Height
-	                     + '\n' + tide3Time + ' ' + tide3Type + tide3Height 
-	                     + '\n' + tide4Time + ' ' + tide4Type + tide4Height + 
-	                     '\n\n' + update[0:14]+'Buoy '+ update[14:39]+ ', '+ update[50:61]), 
-	                    from_=myTwilioNumber, to=myCellPhone)
-	                    
-# Write a SMS text with the waveheight, waterTemp, and waveDirection with a few other stats
+    message = twilioCli.messages.create(body=
+                        ('\n\n\n' + 'Surf Report:' + '\n\n' + waveHeight + ', Water Temp:' + waterTemp + 
+                         ', Wave Direction: '+ meanWaveDirection
+                         + '\n\n' + 'TIDES:\n' + selectTideText + 
+                         '\n\n' + update[0:14]+'Buoy '+ update[14:38]+ ', '+ update[50:60]), 
+                        from_=myTwilioNumber, to=myCellPhone)
+                        
+    # Write a SMS text with the waveheight, waterTemp, and waveDirection
 
 # Example of SMS Response:
 # Surf Report:
@@ -113,4 +86,4 @@ def main():
 #
 # Conditions at Buoy 46221 as of(7:30 am PDT), 09/05/2017
 
-main()
+sendSurfText()
